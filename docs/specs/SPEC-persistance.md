@@ -19,6 +19,11 @@
 | `totp_secrets` | `TotpSecretStore` |
 | `pin_credentials` | hash PIN + compteur d'échecs + locked |
 | `nfc_media` | F1 (états) — créée vide, pas d'usage avant SPEC-F1 |
+| `wallet_mutations` | idempotence `applyDebit` / `applyCredit` |
+| `vendor_sightings` | `RecentVendorSighting` |
+| `wallet_history` | `WalletHistoryReader` |
+
+`wallets.payout_msisdn` : numéro de payout vérifié (SPEC-portail). `wallets.velocity_window_start` : fenêtre 24 h (défaut produit, pas un plafond BCEAO).
 
 Pas de secret en clair. Hash des clés marchandes et PIN : `node:crypto` (scrypt ou sha256+sel) à l'implémentation de l'adapter — `TODO(question)` algorithme exact si un standard partenaire s'impose.
 

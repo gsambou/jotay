@@ -12,6 +12,10 @@ pnpm install               # .npmrc: ignore-scripts + save-exact actifs
 pnpm typecheck             # tsc sur tous les packages
 pnpm test                  # node:test — inclut les golden fixtures
 pnpm dep:budget            # vérifie le budget de dépendances runtime
+# API locale (Postgres requis) :
+# cp .env.example .env
+# pnpm --filter @jotay/api migrate && pnpm --filter @jotay/api seed
+# pnpm --filter @jotay/api dev
 ```
 
 ## Cartographie Clean Architecture (apps/api)

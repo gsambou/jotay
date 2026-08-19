@@ -123,19 +123,18 @@ jotay/
 | `POST /events/:id/close` | CloseEvent |
 | `POST /events/:id/payouts` | PayoutRemainingBalances |
 
-### Adapters réels
+### Adapters réels (Postgres, câblés dans `main.ts`)
 
-- `PgLedgerEventStore` (append-only)
-- `Ed25519SignatureVerifier`
-- `QrCodeRenderer` (outil, hors runtime critique)
-- `SystemClock`
-- `MemoryJobQueue` / `MemoryRateLimitStore` (tests)
+- `PgLedgerEventStore`, `PgWalletBalance`, `PgWalletDirectory`, `PgMerchantRegistry`, `PgEventPaymentConfig`, `PgPinVerifier`
+- `PgBlocklist`, `PgAnomalySink`, `PgAuditLog`, `PgPortalSessions`, `PgOtpChallenges`, `PgTotpSecrets`, `PgDynamicQrGuard`
+- `PgJobQueue`, `PgRefundSink`, `PgTerminalKeys`, `PgVendorSighting`, `PgWalletHistory`
+- `Ed25519SignatureVerifier`, `RandomOpaqueIdMinter`, `QrCodeRenderer`, `SystemClock`
 
-### Stubs explicites dans `main.ts` (échouent bruyamment)
+### Stubs explicites restants
 
-`TerminalKeyRegistry` · `WalletBalanceRepository` · `PinVerifier` · `WalletDirectory` · `OtpChannel` · `OtpChallengeStore` · `PortalSessionStore` · `WalletHistoryReader` · `RefundRequestSink` · `TotpSecretStore` · `DynamicQrGuard` · `AuditLog` · `JobQueue` (prod) · `MobileMoneyGateway` · `MerchantRegistry` · `EventPaymentConfig` · `BlocklistRepository` / `AnomalySink` (no-op log)
+`MobileMoneyGateway` (opérateur Wave/OM) · `OtpChannel` WhatsApp (sauf `JOTAY_DEV_OTP=1`)
 
-Les migrations `0001`–`0006` existent déjà pour plusieurs de ces ports : le schéma précède l'adapter.
+Les migrations `0001`–`0006` portent le schéma. Local : `pnpm --filter @jotay/api migrate` puis `seed`.
 
 ---
 

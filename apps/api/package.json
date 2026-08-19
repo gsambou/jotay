@@ -7,7 +7,8 @@
     "typecheck": "tsc --noEmit",
     "test": "node --test --import tsx \"test/**/*.test.ts\"",
     "dev": "tsx watch src/main.ts",
-    "migrate": "tsx src/infrastructure/postgres/migrate.ts"
+    "migrate": "tsx src/infrastructure/postgres/migrate.ts",
+    "seed": "tsx src/infrastructure/postgres/seed.ts"
   },
   "dependencies": {
     "@jotay/ledger-core": "workspace:*",

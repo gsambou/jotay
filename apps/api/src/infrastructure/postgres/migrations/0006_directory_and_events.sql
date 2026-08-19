@@ -25,8 +25,35 @@ CREATE TABLE IF NOT EXISTS wallets (
   frozen               BOOLEAN NOT NULL DEFAULT FALSE,
   spent_in_window_xof  BIGINT NOT NULL DEFAULT 0 CHECK (spent_in_window_xof >= 0),
   tx_count_in_window   INTEGER NOT NULL DEFAULT 0 CHECK (tx_count_in_window >= 0),
+  velocity_window_start TIMESTAMPTZ,
+  payout_msisdn        TEXT,
   updated_at           TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Idempotence des crédits/débits SERVER (authId, loadId, adjustmentId, providerRef).
+CREATE TABLE IF NOT EXISTS wallet_mutations (
+  ref         TEXT PRIMARY KEY,
+  wallet_id   TEXT NOT NULL REFERENCES wallets (id),
+  direction   TEXT NOT NULL CHECK (direction IN ('DEBIT', 'CREDIT')),
+  amount_xof  BIGINT NOT NULL CHECK (amount_xof > 0),
+  at          TIMESTAMPTZ NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS vendor_sightings (
+  wallet_id  TEXT PRIMARY KEY REFERENCES wallets (id),
+  vendor_id  TEXT NOT NULL,
+  seen_at    TIMESTAMPTZ NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS wallet_history (
+  id         BIGSERIAL PRIMARY KEY,
+  wallet_id  TEXT NOT NULL REFERENCES wallets (id),
+  at         TIMESTAMPTZ NOT NULL,
+  kind       TEXT NOT NULL CHECK (kind IN ('PAYMENT', 'TOPUP', 'REFUND', 'REVERSAL')),
+  amount_xof BIGINT NOT NULL CHECK (amount_xof > 0),
+  vendor_id  TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_wallet_history_recent ON wallet_history (wallet_id, at DESC);
 
 CREATE TABLE IF NOT EXISTS qr_bindings (
   opaque_id   TEXT PRIMARY KEY,
