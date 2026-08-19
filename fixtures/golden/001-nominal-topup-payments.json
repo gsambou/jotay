@@ -1,0 +1,16 @@
+{
+  "name": "Nominal : top-up cash 10 000 puis deux paiements",
+  "records": [
+    { "schemaVersion": 1, "eventId": "EVT-1", "cardUid": "CARD-A", "cardTxCounter": 1, "terminalId": "T-CASH-1", "terminalSeq": 1, "opType": "ACTIVATION", "amountXof": 0, "balanceAfter": 0, "tsTerminal": "2026-08-01T18:00:00Z", "cardTxMac": "mac1", "terminalSig": "sig1" },
+    { "schemaVersion": 1, "eventId": "EVT-1", "cardUid": "CARD-A", "cardTxCounter": 2, "terminalId": "T-CASH-1", "terminalSeq": 2, "opType": "TOPUP", "topupChannel": "CASH", "cashierSessionId": "S1", "amountXof": 10000, "balanceAfter": 10000, "tsTerminal": "2026-08-01T18:01:00Z", "cardTxMac": "mac2", "terminalSig": "sig2" },
+    { "schemaVersion": 1, "eventId": "EVT-1", "cardUid": "CARD-A", "cardTxCounter": 3, "terminalId": "T-V1", "terminalSeq": 1, "opType": "PAYMENT", "vendorId": "V1", "amountXof": 3000, "balanceAfter": 7000, "tsTerminal": "2026-08-01T19:00:00Z", "cardTxMac": "mac3", "terminalSig": "sig3" },
+    { "schemaVersion": 1, "eventId": "EVT-1", "cardUid": "CARD-A", "cardTxCounter": 4, "terminalId": "T-V2", "terminalSeq": 1, "opType": "PAYMENT", "vendorId": "V2", "amountXof": 1500, "balanceAfter": 5500, "tsTerminal": "2026-08-01T20:30:00Z", "cardTxMac": "mac4", "terminalSig": "sig4" }
+  ],
+  "expected": {
+    "balances": { "CARD-A": 5500 },
+    "vendorGross": { "V1": 3000, "V2": 1500 },
+    "anomalyKinds": [],
+    "blockedCards": [],
+    "balanced": true
+  }
+}

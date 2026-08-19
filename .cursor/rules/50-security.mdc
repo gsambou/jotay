@@ -1,0 +1,10 @@
+---
+description: Sécurité et données personnelles
+alwaysApply: true
+---
+- Aucun secret dans le repo (la CI échoue sinon). Clés maîtres : KMS uniquement.
+- Donnée personnelle limitée au MSISDN ; tout ajout de champ personnel exige un
+  ADR au regard de la loi sénégalaise 2008-12 / CDP.
+- Ne jamais logger : soldes associés à un MSISDN en clair, clés, MAC complets.
+- Tout code touchant crypto/clés/blocklist porte le marqueur // CRITICAL-PATH et
+  exige une revue humaine ligne à ligne — ne jamais l'auto-appliquer.

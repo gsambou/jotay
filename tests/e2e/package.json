@@ -1,0 +1,17 @@
+{
+  "name": "@jotay/e2e",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "echo 'e2e — vérifié par Playwright/tsx au runtime'",
+    "test": "echo 'e2e navigateur : lancer `pnpm e2e` (nécessite les navigateurs Playwright)'",
+    "e2e": "playwright test",
+    "e2e:install": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.1",
+    "tsx": "4.19.2",
+    "typescript": "5.7.2"
+  }
+}

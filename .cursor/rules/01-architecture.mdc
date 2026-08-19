@@ -1,0 +1,13 @@
+---
+description: Lire les guides d'architecture avant toute feature ou refactor
+alwaysApply: true
+---
+Avant d'écrire du code applicatif : lire `docs/architecture/README.md`.
+
+- Feature nouvelle → `docs/architecture/GUIDE-FEATURE.md`
+- Refactor (comportement inchangé) → `docs/architecture/GUIDE-REFACTOR.md`
+- Emplacement d'un fichier → `docs/architecture/COUCHES.md`
+- Quoi toucher / état réel → `docs/architecture/INVENTAIRE.md` + `CAPACITES.md`
+
+Ne pas commencer par une route, un écran ou un adapter. Spec FR + fixtures d'abord.
+Si l'état d'une capacité change, mettre à jour l'inventaire dans la même PR.

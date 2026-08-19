@@ -1,0 +1,30 @@
+{
+  "name": "@jotay/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --import tsx \"test/**/*.test.ts\"",
+    "dev": "tsx watch src/main.ts",
+    "migrate": "tsx src/infrastructure/postgres/migrate.ts",
+    "seed": "tsx src/infrastructure/postgres/seed.ts"
+  },
+  "dependencies": {
+    "@jotay/ledger-core": "workspace:*",
+    "@jotay/protocol": "workspace:*",
+    "@jotay/shared": "workspace:*",
+    "pg": "8.13.1",
+    "zod": "3.24.1",
+    "fastify": "5.2.0",
+    "@jotay/card-crypto": "workspace:*",
+    "qrcode-generator": "1.4.4"
+  },
+  "devDependencies": {
+    "typescript": "5.7.2",
+    "tsx": "4.19.2",
+    "@types/node": "22.10.2",
+    "@types/pg": "8.11.10",
+    "@types/qrcode-generator": "1.0.6"
+  }
+}

@@ -1,0 +1,14 @@
+---
+description: Terminal Android — chemin de paiement
+globs: ["apps/terminal/**"]
+---
+- Kotlin natif. Le chemin de paiement NFC (tap → débit → confirmation) ne
+  contient AUCUN appel réseau, même optionnel.
+- Toute séquence APDU DESFire est encapsulée dans des fonctions testées contre le
+  simulateur (tools/card-sim) ; pas d'APDU inline dans l'UI.
+- Écriture puce et enregistrement SQLite couplés : transaction locale validée
+  UNIQUEMENT après commit DESFire confirmé.
+- Gérer explicitement TagLostException à chaque étape : état résultant déterminé
+  (commit complet ou rollback), jamais ambigu.
+- Clés dans Android Keystore/StrongBox ; aucune clé en clair dans code, logs ou
+  préférences. Ni Firebase, ni SDK analytics, ni React Native.

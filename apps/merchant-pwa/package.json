@@ -1,0 +1,10 @@
+{
+  "name": "@jotay/merchant-pwa",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "echo 'PWA vanilla — pas de typecheck TS'",
+    "test": "node --test \"test/**/*.test.mjs\""
+  }
+}

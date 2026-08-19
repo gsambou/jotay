@@ -1,0 +1,62 @@
+schema: spec-driven
+
+context: |
+  Jotay : cashless closed-loop offline-first (Sénégal / UEMOA).
+  Spec produit : docs/specs/SPEC-JOTAY.md. Inventaire réel : docs/architecture/INVENTAIRE.md.
+  Playbooks : docs/architecture/GUIDE-FEATURE.md et GUIDE-REFACTOR.md.
+  Couches : docs/architecture/COUCHES.md. Capacités : docs/architecture/CAPACITES.md.
+
+  Stack : TypeScript Node 22, monorepo pnpm. Clean Architecture (ADR-001).
+  Domaine pur : packages/ledger-core, protocol, card-crypto, shared (zéro dépendance, zéro I/O).
+  API : apps/api — application (use cases + ports) / infrastructure / interface Fastify (ADR-006) /
+  composition root main.ts (injection manuelle, pas de DI). Validation zod.
+  PWA : HTML + JS ESM, zéro framework, zéro build (ADR-003).
+  Terminal Android Kotlin : spécifié, non commencé (SPEC-F3). Dashboard : Phase 1.
+
+  Montants : entiers FCFA via AmountXof. Jamais de flottant.
+  Docs/specs/ADR : français. Identifiants, commits, branches : anglais.
+  Dépendances : interdites sans ADR. Budget packages/* = 0 ; apps/api = pg + zod + fastify.
+  Tests : node:test, 4 niveaux (unitaire, intégration fakes, e2e HTTP + Playwright, régression).
+  Barrière ledger : pnpm sim, réconciliation exacte au FCFA près.
+  CRITICAL-PATH (crypto, clés, blocklist) : revue humaine, jamais d'auto-apply.
+  Ne pas inventer un plafond réglementaire, un comportement Wave/OM, ou un palier KYC :
+  TODO(question) ou question.
+  Hors code : DESFire matériel, partenaire émetteur BCEAO, marque OAPI (docs/HORS-CODE.md).
+
+rules:
+  proposal:
+    - Rédiger en français. Nom du change en kebab-case anglais.
+    - Citer la capacité (docs/architecture/CAPACITES.md) et le chapitre SPEC-JOTAY.
+    - Inclure une section « Hors-scope » obligatoire.
+    - Distinguer ce qui est déjà fait / scaffoldé / spécifié (INVENTAIRE.md) — ne pas redemander l'existant.
+    - Si le travail est un refactor sans changement de comportement : le dire et pointer GUIDE-REFACTOR.md.
+  specs:
+    - Exigences en français, scénarios Given/When/Then.
+    - Chaque exigence métier couvre le nominal ET au moins un dégradé honnête.
+    - Si l'argent bouge : décrire les écritures en partie double (comptes, sens, montants entiers XOF).
+    - Ne pas inventer de plafond, frais, ou comportement d'opérateur — TODO(question).
+    - Préserver le chemin de capacité existant (ex. qr-payment, sync-ingestion).
+  design:
+    - Placer chaque brique selon docs/architecture/COUCHES.md (domaine → ports → adapter → interface).
+    - Lister les ports nouveaux (étroits, un besoin = un port) et les adapters (réel vs fake).
+    - Signaler toute évolution de PaymentRecord (bump SCHEMA_VERSION + compat fixtures).
+    - Signaler // CRITICAL-PATH. Interdire toute nouvelle dépendance sans ADR.
+    - Composition root : câblage uniquement dans main.ts ; application/ n'importe pas infrastructure/.
+  tasks:
+    - Ordre : spec/fixtures → moteur pur → use case+ports → fake → adapter → HTTP/PWA → tests 4 niveaux.
+    - Chaque tâche d'implémentation mentionne le niveau de test qu'elle ajoute.
+    - Si le ledger ou le replay change : une tâche `pnpm sim`.
+    - Si l'opération terrain change : une tâche runbook.
+    - Granularité : une tâche = un incrément vérifiable, pas un sprint.
+
+operations:
+  apply:
+    guidance:
+      - Suivre docs/architecture/GUIDE-FEATURE.md (ou GUIDE-REFACTOR.md si refactor).
+      - Ne pas implémenter un use case avant les fixtures / scénarios de spec.
+      - Ne pas affaiblir un test existant. CRITICAL-PATH : stop et revue humaine.
+      - Mettre à jour INVENTAIRE.md / CAPACITES.md si l'état d'une capacité change.
+  archive:
+    guidance:
+      - Résumer l'état réel (fait vs encore stub) avant d'archiver.
+      - Vérifier que la spec FR et l'inventaire sont alignés avec le code.

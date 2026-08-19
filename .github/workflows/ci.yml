@@ -1,0 +1,38 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - name: Tests (unitaire + intégration + e2e + régression)
+        run: pnpm test
+      - name: Tests outils (génération QR)
+        run: pnpm test:tools
+      - name: Barrière event-sim (réconciliation exacte)
+        run: pnpm sim
+      - name: Budget de dépendances
+        run: pnpm dep:budget
+      - name: Scan secrets (motifs interdits)
+        run: pnpm secrets:scan
+      - name: Scan vulnérabilités (OSV)
+        uses: google/osv-scanner-action/osv-scanner-action@v2
+        with: { scan-args: "--recursive ./" }
+
+  e2e-browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Installer Chromium (Playwright)
+        run: pnpm --filter @jotay/e2e exec playwright install --with-deps chromium
+      - name: E2E navigateur
+        run: pnpm --filter @jotay/e2e e2e

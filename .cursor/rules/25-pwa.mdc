@@ -1,0 +1,14 @@
+---
+description: PWA participant et marchande — vanilla, zéro build
+globs: ["apps/participant-pwa/**", "apps/merchant-pwa/**"]
+alwaysApply: false
+---
+- HTML + JavaScript ESM + service worker. Zéro framework, zéro bundler (ADR-003).
+  Toute dépendance front exige un nouvel ADR.
+- L'URL du QR est publique : elle n'autorise ni solde ni action. Session cookie
+  HttpOnly / SameSite=Strict — jamais de jeton en localStorage.
+- Solde = vue serveur **datée**. Hors ligne : dernier solde connu + actions de
+  valeur désactivées. Pas de débit QR à l'aveugle.
+- i18n fr par défaut, en en secours. Gros boutons, bas débit, pas de SDK caméra
+  lourd (`BarcodeDetector` + repli minimal).
+- La PWA ne lit pas la puce DESFire. Le dashboard (s'il vient) reste lecture seule.

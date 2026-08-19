@@ -1,0 +1,14 @@
+---
+description: Stratégie de tests — golden fixtures
+alwaysApply: true
+---
+- ledger-core est validé par les GOLDEN FIXTURES de fixtures/golden/ (scénario
+  complet en entrée → état exact en sortie, format documenté dans le README du
+  dossier). Les fixtures sont versionnées et ne sont JAMAIS réduites ; on ne
+  modifie une valeur attendue que via une PR dédiée expliquant le changement métier.
+- Tout bug corrigé = une fixture ajoutée reproduisant le bug.
+- Runner de tests : node:test (builtin). Pas de framework de test externe sans ADR.
+- Invariants à tester systématiquement : conservation (somme débits = somme
+  crédits), idempotence de l'ingestion, monotonie des compteurs, aucun solde négatif.
+- Avant tout déploiement : tools/event-sim (charge réaliste, pannes injectées)
+  doit produire une réconciliation exacte au FCFA près.
