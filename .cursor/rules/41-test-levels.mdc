@@ -1,0 +1,30 @@
+---
+description: Après CHAQUE implémentation, au minimum les 4 niveaux de tests
+alwaysApply: true
+---
+Toute implémentation (feature, correctif, refactor de comportement) n'est PAS terminée
+tant que les 4 niveaux ci-dessous ne sont pas couverts. Aucun n'est optionnel ; si l'un
+ne s'applique pas, l'expliquer en une ligne dans la PR (pas de silence).
+
+1. UNITAIRE — la plus petite unité isolée (fonction pure du domaine, helper).
+   Emplacement : packages/*/test, apps/*/test. Runner node:test. Zéro I/O.
+
+2. INTÉGRATION — plusieurs unités câblées via leurs PORTS, avec des fakes in-memory
+   (apps/api/test/fakes.ts). Vérifie l'orchestration des use cases et le respect des
+   contrats de ports (LSP). Pas de réseau, pas de vraie base.
+
+3. E2E — la pile réelle traversée de bout en bout, à DEUX niveaux :
+   a) e2e HTTP : Fastify (`buildApp`) réel piloté par fetch, adapters in-memory (apps/api/test).
+   b) e2e NAVIGATEUR : Playwright sur la PWA réelle (tests/e2e), exception devDependency
+      actée par l'ADR-005. Serveur de test = PWA statique + API in-memory seedée.
+      Lancer : `pnpm --filter @jotay/e2e e2e:install` (une fois) puis `pnpm e2e`.
+
+4. RÉGRESSION — tout bug corrigé ajoute une entrée dans fixtures/regression/ (ou une
+   golden fixture) qui échouait AVANT le correctif et passe APRÈS. Jamais retirée.
+
+Invariants du domaine à couvrir par des tests de PROPRIÉTÉ seedés (générateur maison,
+zéro dépendance — cf. packages/ledger-core/test/sim) : conservation (Σ débits = Σ crédits),
+idempotence de l'ingestion, insensibilité à l'ordre de sync, aucun solde négatif.
+
+Barrière avant déploiement : `pnpm sim` (event-sim) doit produire une réconciliation
+exacte au FCFA près. La CI exécute unitaire + intégration + e2e + régression + sim.

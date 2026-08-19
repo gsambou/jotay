@@ -56,4 +56,3 @@ Toute nouvelle dépendance exige un ADR (`docs/adr/`) — règle appliquée par 
 ## Hors code
 
 Voir `docs/HORS-CODE.md` : validation DESFire sur matériel, partenaire émetteur agréé, marque OAPI.
-# jotay

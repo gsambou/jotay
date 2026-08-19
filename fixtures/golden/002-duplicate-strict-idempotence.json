@@ -1,0 +1,15 @@
+{
+  "name": "Doublon strict (même record synchronisé deux fois) : dédupliqué, aucun double débit",
+  "records": [
+    { "schemaVersion": 1, "eventId": "EVT-1", "cardUid": "CARD-B", "cardTxCounter": 1, "terminalId": "T-CASH-1", "terminalSeq": 10, "opType": "TOPUP", "topupChannel": "CASH", "cashierSessionId": "S1", "amountXof": 5000, "balanceAfter": 5000, "tsTerminal": "2026-08-01T18:05:00Z", "cardTxMac": "macB1", "terminalSig": "sigB1" },
+    { "schemaVersion": 1, "eventId": "EVT-1", "cardUid": "CARD-B", "cardTxCounter": 2, "terminalId": "T-V1", "terminalSeq": 5, "opType": "PAYMENT", "vendorId": "V1", "amountXof": 2000, "balanceAfter": 3000, "tsTerminal": "2026-08-01T19:10:00Z", "cardTxMac": "macB2", "terminalSig": "sigB2" },
+    { "schemaVersion": 1, "eventId": "EVT-1", "cardUid": "CARD-B", "cardTxCounter": 2, "terminalId": "T-V1", "terminalSeq": 5, "opType": "PAYMENT", "vendorId": "V1", "amountXof": 2000, "balanceAfter": 3000, "tsTerminal": "2026-08-01T19:10:00Z", "cardTxMac": "macB2", "terminalSig": "sigB2" }
+  ],
+  "expected": {
+    "balances": { "CARD-B": 3000 },
+    "vendorGross": { "V1": 2000 },
+    "anomalyKinds": [],
+    "blockedCards": [],
+    "balanced": true
+  }
+}

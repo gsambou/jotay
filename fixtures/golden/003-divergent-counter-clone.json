@@ -1,0 +1,15 @@
+{
+  "name": "Clonage présumé : même compteur, contenus différents → quarantaine + blocklist",
+  "records": [
+    { "schemaVersion": 1, "eventId": "EVT-1", "cardUid": "CARD-C", "cardTxCounter": 1, "terminalId": "T-CASH-1", "terminalSeq": 20, "opType": "TOPUP", "topupChannel": "CASH", "cashierSessionId": "S2", "amountXof": 8000, "balanceAfter": 8000, "tsTerminal": "2026-08-01T18:20:00Z", "cardTxMac": "macC1", "terminalSig": "sigC1" },
+    { "schemaVersion": 1, "eventId": "EVT-1", "cardUid": "CARD-C", "cardTxCounter": 2, "terminalId": "T-V1", "terminalSeq": 30, "opType": "PAYMENT", "vendorId": "V1", "amountXof": 1000, "balanceAfter": 7000, "tsTerminal": "2026-08-01T19:00:00Z", "cardTxMac": "macC2a", "terminalSig": "sigC2a" },
+    { "schemaVersion": 1, "eventId": "EVT-1", "cardUid": "CARD-C", "cardTxCounter": 2, "terminalId": "T-V3", "terminalSeq": 7, "opType": "PAYMENT", "vendorId": "V3", "amountXof": 4000, "balanceAfter": 3000, "tsTerminal": "2026-08-01T19:02:00Z", "cardTxMac": "macC2b", "terminalSig": "sigC2b" }
+  ],
+  "expected": {
+    "balances": { "CARD-C": 8000 },
+    "vendorGross": {},
+    "anomalyKinds": ["CLONE_SUSPECTED"],
+    "blockedCards": ["CARD-C"],
+    "balanced": true
+  }
+}

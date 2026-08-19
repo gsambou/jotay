@@ -1,0 +1,13 @@
+---
+description: Cycle obligatoire feature / refactor (OpenSpec + spec + tests)
+alwaysApply: true
+---
+Feature = OpenSpec change + spec FR (`docs/specs/`) + fixtures **avant** le code.
+Refactor = ancrer les tests, préserver fixtures/`expected`, suivre GUIDE-REFACTOR.md.
+
+Ordre d'implémentation : moteur pur → use case + ports → fake → adapter → HTTP/PWA.
+Câblage prod uniquement dans `apps/api/src/main.ts`.
+
+DoD : spec à jour ; 4 niveaux de tests (ou une ligne d'excuse en PR) ; `pnpm sim`
+si ledger/replay ; runbook si terrain ; inventaire à jour ; pas de dép. sans ADR.
+`// CRITICAL-PATH` : stop, revue humaine.

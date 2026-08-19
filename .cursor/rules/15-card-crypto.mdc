@@ -1,0 +1,12 @@
+---
+description: Crypto carte — CMAC, TOTP, diversification
+globs: ["packages/card-crypto/**"]
+alwaysApply: false
+---
+- Package PUR : zéro I/O, zéro `Date.now()` / `Math.random()` / `process.env`.
+  Le secret TOTP et l'horloge sont des paramètres. Zéro dépendance runtime.
+- Primitives : `node:crypto` uniquement. Aucune lib crypto tierce.
+- AES-CMAC = RFC 4493 (vecteurs officiels). TOTP = RFC 6238 (vecteurs officiels).
+  Diversification type NXP AN10922 : ne pas « inventer » un KDF.
+- Tout fichier porte `// CRITICAL-PATH`. Revue humaine ligne à ligne — pas d'auto-apply.
+- La validation DESFire sur matériel réel est hors code (`docs/HORS-CODE.md`).

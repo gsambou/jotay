@@ -1,0 +1,30 @@
+{
+  "name": "jotay",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "pnpm -r --parallel typecheck",
+    "test": "pnpm -r test",
+    "dep:budget": "node tools/check-dep-budget.mjs",
+    "secrets:scan": "node tools/check-no-secrets.mjs",
+    "sim": "tsx packages/ledger-core/test/sim/cli.ts",
+    "e2e": "pnpm --filter @jotay/e2e e2e",
+    "demo": "tsx tools/seed-demo.ts",
+    "qr:sample": "tsx tools/qr-provision.ts",
+    "test:tools": "node --test \"tools/test/**/*.test.mjs\""
+  },
+  "depBudgets": {
+    "apps/api": 4,
+    "packages/ledger-core": 0,
+    "packages/protocol": 0,
+    "packages/shared": 0,
+    "packages/card-crypto": 0
+  },
+  "devDependencies": {
+    "qrcode-generator": "1.4.4",
+    "@types/qrcode-generator": "1.0.6"
+  }
+}

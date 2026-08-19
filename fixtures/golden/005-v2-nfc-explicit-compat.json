@@ -1,0 +1,14 @@
+{
+  "name": "Compat v2 : mêmes flux NFC avec schemaVersion 2 + mediumType/authority explicites",
+  "records": [
+    { "schemaVersion": 2, "mediumType": "NFC", "balanceAuthority": "CHIP", "eventId": "EVT-1", "cardUid": "CARD-E", "cardTxCounter": 1, "terminalId": "T-CASH-1", "terminalSeq": 1, "opType": "TOPUP", "topupChannel": "CASH", "cashierSessionId": "S1", "amountXof": 7000, "balanceAfter": 7000, "tsTerminal": "2026-08-01T18:00:00Z", "cardTxMac": "macE1", "terminalSig": "sigE1" },
+    { "schemaVersion": 2, "mediumType": "NFC", "balanceAuthority": "CHIP", "eventId": "EVT-1", "cardUid": "CARD-E", "cardTxCounter": 2, "terminalId": "T-V1", "terminalSeq": 1, "opType": "PAYMENT", "vendorId": "V1", "amountXof": 2500, "balanceAfter": 4500, "tsTerminal": "2026-08-01T19:00:00Z", "cardTxMac": "macE2", "terminalSig": "sigE2" }
+  ],
+  "expected": {
+    "balances": { "CARD-E": 4500 },
+    "vendorGross": { "V1": 2500 },
+    "anomalyKinds": [],
+    "blockedCards": [],
+    "balanced": true
+  }
+}

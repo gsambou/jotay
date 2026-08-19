@@ -1,0 +1,16 @@
+---
+description: Moteurs déterministes — pureté absolue
+globs: ["packages/ledger-core/**", "packages/protocol/**", "packages/shared/**"]
+---
+- Ces packages sont des MOTEURS DÉTERMINISTES : fonctions pures uniquement.
+  INTERDITS : I/O, réseau, base de données, Date.now(), Math.random(),
+  process.env, imports depuis apps/*. Le temps et l'aléa sont TOUJOURS des
+  paramètres d'entrée.
+- Zéro dépendance runtime. devDependencies limitées à typescript et tsx.
+- Toute écriture comptable est en partie double ; construire les écritures via
+  makeEntry() qui garantit l'équilibre — jamais de Posting assemblé à la main.
+- Les fonctions retournent Result<T, LedgerError> — jamais d'exception pour un
+  cas métier ; jamais de valeur par défaut silencieuse (échec honnête). Les
+  exceptions sont réservées aux erreurs de programmation (invariants violés).
+- Toute évolution de PaymentRecord (packages/protocol) : bump de SCHEMA_VERSION
+  + test de compatibilité ascendante sur les fixtures existantes.

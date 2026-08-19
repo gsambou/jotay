@@ -1,0 +1,49 @@
+{
+  "name": "Trou de compteur (terminal pas encore synchronisé) : tracé, non bloquant, chaîne suspendue",
+  "records": [
+    {
+      "schemaVersion": 1,
+      "eventId": "EVT-1",
+      "cardUid": "CARD-D",
+      "cardTxCounter": 1,
+      "terminalId": "T-CASH-1",
+      "terminalSeq": 40,
+      "opType": "TOPUP",
+      "topupChannel": "CASH",
+      "cashierSessionId": "S1",
+      "amountXof": 6000,
+      "balanceAfter": 6000,
+      "tsTerminal": "2026-08-01T18:30:00Z",
+      "cardTxMac": "macD1",
+      "terminalSig": "sigD1"
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "EVT-1",
+      "cardUid": "CARD-D",
+      "cardTxCounter": 3,
+      "terminalId": "T-V2",
+      "terminalSeq": 12,
+      "opType": "PAYMENT",
+      "vendorId": "V2",
+      "amountXof": 1000,
+      "balanceAfter": 4000,
+      "tsTerminal": "2026-08-01T19:30:00Z",
+      "cardTxMac": "macD3",
+      "terminalSig": "sigD3"
+    }
+  ],
+  "expected": {
+    "balances": {
+      "CARD-D": 4000
+    },
+    "vendorGross": {
+      "V2": 1000
+    },
+    "anomalyKinds": [
+      "COUNTER_GAP"
+    ],
+    "blockedCards": [],
+    "balanced": false
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "bug": "Le doublon divergent (même compteur, contenu différent) était supprimé par ON CONFLICT DO NOTHING avant le rejeu, masquant le clonage. Corrigé en rejouant historique stocké UNION lot entrant (IngestSyncBatch).",
+  "records": [
+    { "schemaVersion": 2, "mediumType": "NFC", "balanceAuthority": "CHIP", "eventId": "EVT-1", "cardUid": "CARD-REG1", "cardTxCounter": 1, "terminalId": "T-CASH-1", "terminalSeq": 1, "opType": "TOPUP", "topupChannel": "CASH", "cashierSessionId": "S1", "amountXof": 8000, "balanceAfter": 8000, "tsTerminal": "2026-08-01T18:00:00Z", "cardTxMac": "macR1", "terminalSig": "sigR1" },
+    { "schemaVersion": 2, "mediumType": "NFC", "balanceAuthority": "CHIP", "eventId": "EVT-1", "cardUid": "CARD-REG1", "cardTxCounter": 2, "terminalId": "T-V1", "terminalSeq": 1, "opType": "PAYMENT", "vendorId": "V1", "amountXof": 1000, "balanceAfter": 7000, "tsTerminal": "2026-08-01T19:00:00Z", "cardTxMac": "macR2a", "terminalSig": "sigR2a" },
+    { "schemaVersion": 2, "mediumType": "NFC", "balanceAuthority": "CHIP", "eventId": "EVT-1", "cardUid": "CARD-REG1", "cardTxCounter": 2, "terminalId": "T-V3", "terminalSeq": 1, "opType": "PAYMENT", "vendorId": "V3", "amountXof": 4000, "balanceAfter": 3000, "tsTerminal": "2026-08-01T19:02:00Z", "cardTxMac": "macR2b", "terminalSig": "sigR2b" }
+  ],
+  "expected": { "blockedCards": ["CARD-REG1"], "anomalyKinds": ["CLONE_SUSPECTED"] }
+}

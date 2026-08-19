@@ -1,0 +1,14 @@
+---
+description: Règles globales Jotay
+alwaysApply: true
+---
+- Documentation, specs, ADR et commentaires de doc : en FRANÇAIS. Identifiants de
+  code, messages de commit, noms de branches : en ANGLAIS.
+- Tous les montants sont des ENTIERS en FCFA (XOF) via le type brandé `AmountXof`
+  de @jotay/ledger-core. Aucun nombre flottant pour l'argent, nulle part, jamais.
+- Toute modification commence par `docs/architecture/README.md` puis la spec
+  dans docs/specs/. S'il n'y a pas de spec, en PROPOSER une avant de coder.
+- Ne jamais inventer une valeur, un plafond réglementaire ou un comportement d'API
+  externe : poser la question ou marquer TODO(question).
+- Interdiction de supprimer ou d'affaiblir un test existant pour faire passer le build.
+- Toute décision d'architecture non triviale → ADR dans docs/adr/ (modèle ADR-000).

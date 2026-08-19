@@ -1,0 +1,24 @@
+---
+description: API — Clean Architecture + SOLID
+globs: ["apps/api/**"]
+---
+- Règle de dépendance stricte : interface → application → domain (packages/*).
+  infrastructure implémente les ports de application/ports et n'est importée QUE
+  par main.ts (composition root). application/ n'importe JAMAIS infrastructure/
+  ni node:http ni pg (DIP).
+- Un use case = un fichier = une responsabilité (SRP). Signature :
+  execute(input): Promise<Result<Output, UseCaseError>>.
+- Les ports (application/ports) sont ÉTROITS (ISP) : ne pas créer de port
+  fourre-tout "Repository" ; un port par besoin (Clock, LedgerEventStore,
+  BlocklistRepository, UnitOfWork...).
+- Tout adapter d'un port passe les tests de contrat du port (fichier
+  *.contract.test.ts partagé) — garantie LSP.
+- Ingestion sync : idempotence par UNIQUE(card_uid, card_tx_counter). Doublon
+  strict = ACK silencieux ; doublon divergent = ANOMALIE en quarantaine + alerte,
+  jamais un écrasement.
+- ledger_events est append-only : aucun UPDATE/DELETE sur cette table dans le
+  code. Corrections = écritures d'ajustement.
+- Tout endpoint mutateur exige une Idempotency-Key. Toute entrée HTTP est validée
+  par un schéma zod AVANT d'atteindre un use case.
+- Webhooks opérateurs (Wave/OM) : vérifiés par signature ET confirmés par appel
+  actif avant tout crédit.

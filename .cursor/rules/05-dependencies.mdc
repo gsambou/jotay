@@ -1,0 +1,19 @@
+---
+description: Politique de dépendances minimales
+alwaysApply: true
+---
+- INTERDIT d'ajouter une dépendance (package.json) sans ADR approuvé dans docs/adr/
+  justifiant : besoin, alternatives stdlib évaluées, coût de réécriture, réputation
+  du paquet. Les budgets par package sont dans package.json racine (depBudgets) et
+  vérifiés par la CI (tools/check-dep-budget.mjs).
+- Budgets actuels : apps/api = 4 (pg, zod, fastify, qrcode-generator — ADR-006, ADR-010) ;
+  packages/* = 0. Source de vérité : `package.json` `depBudgets`.
+- Préférer TOUJOURS node: builtins ; si la fonctionnalité tient en < 200 lignes
+  maison testées, l'écrire plutôt que l'importer (routeur, jobs, migrations : maison).
+- Crypto, aléa, clés : node:crypto UNIQUEMENT côté serveur, Android Keystore côté
+  terminal. Aucune bibliothèque crypto tierce, jamais.
+- Framework HTTP : Fastify UNIQUEMENT (ADR-006), confiné à interface/http. Ne jamais
+  introduire d'ORM ni de framework de DI (NestJS, etc.) : l'injection de dépendances se
+  fait à la main dans la composition root. Express est écarté au profit de Fastify.
+- Toute suggestion introduisant une dépendance transitive nouvelle doit le signaler
+  explicitement.

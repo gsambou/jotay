@@ -1,0 +1,19 @@
+{
+  "name": "@jotay/protocol",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --import tsx \"test/*.test.ts\" 2>/dev/null || echo \"no tests yet\""
+  },
+  "dependencies": {
+    "@jotay/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "5.7.2",
+    "tsx": "4.19.2",
+    "@types/node": "22.10.2"
+  }
+}
